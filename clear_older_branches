@@ -1,3 +1,0 @@
-#!/usr/bin/sh
-
-git branch --sort=-committerdate | sed -n "/release\/$1/,\$p" | tail -n +2 | xargs -L1 git branch -d
