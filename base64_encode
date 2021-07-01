@@ -1,0 +1,7 @@
+#!/usr/bin/ruby
+
+require 'base64'
+
+decoded_string = ARGV[0]
+encoded_string = Base64.encode64(decoded_string)
+puts encoded_string
