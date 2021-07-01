@@ -2,12 +2,12 @@
 
 local_branches = `git branch -l --sort=-committerdate --format='%(refname:short)'`.lines
 to_delete = []
-old_enough = false
+old_enough = 0
 local_branches.each do |branch|
-  old_enough = true if branch =~ /release/
-  to_delete << branch if old_enough
+  old_enough += 1 if branch =~ /(release|master)/
+  to_delete << branch if old_enough >= 3 
 end
-to_delete.reject { |branch| branch =~ /release/ }
+to_delete.reject { |branch| branch =~ /(release|master)/ }
          .each { |branch| puts "removing local branch: #{branch}" }
          .each { |branch| `git branch -D #{branch}` }
 local_branches = `git branch -l --sort=-committerdate --format='%(refname:short)'`
