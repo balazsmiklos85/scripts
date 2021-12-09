@@ -1,11 +1,12 @@
 #!/usr/bin/ruby
 
+old_enough_limit = ARGV[0].to_i || 2
 local_branches = `git branch -l --sort=-committerdate --format='%(refname:short)'`.lines
 to_delete = []
 old_enough = 0
 local_branches.each do |branch|
   old_enough += 1 if branch =~ /(release|master)/
-  to_delete << branch if old_enough >= 3 
+  to_delete << branch if old_enough >= old_enough_limit 
 end
 to_delete.reject { |branch| branch =~ /(release|master)/ }
          .each { |branch| puts "removing local branch: #{branch}" }
