@@ -4,11 +4,12 @@ old_enough_limit = ARGV[0].to_i || 2
 local_branches = `git branch -l --sort=-committerdate --format='%(refname:short)'`.lines
 to_delete = []
 old_enough = 0
+branches_to_keep = /(release|integration|master|main)/
 local_branches.each do |branch|
-  old_enough += 1 if branch =~ /(release|master)/
+  old_enough += 1 if branch =~ branches_to_keep
   to_delete << branch if old_enough >= old_enough_limit 
 end
-to_delete.reject { |branch| branch =~ /(release|master)/ }
+to_delete.reject { |branch| branch =~ branches_to_keep }
          .each { |branch| puts "removing local branch: #{branch}" }
          .each { |branch| `git branch -D #{branch}` }
 local_branches = `git branch -l --sort=-committerdate --format='%(refname:short)'`
