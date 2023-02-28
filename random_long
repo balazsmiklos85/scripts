@@ -1,3 +1,4 @@
 #!/usr/bin/ruby
 
 puts rand(-2**63...2**63)
+
